@@ -3,7 +3,11 @@ module.exports = {
   darkMode: 'class',
   content: ["./src/**/*.{js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['"Noto Sans"', '"Noto Sans KR"', 'sans-serif'],
+      }
+    },
   },
   plugins: [],
 }
