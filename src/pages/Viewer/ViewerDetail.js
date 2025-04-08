@@ -3,10 +3,12 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MriCard from "../../components/Mri/MriCard";
+import MaskList from "../../components/Mri/MaskList";
 
 function ViewerDetail() {
     const { caseId } = useParams();
     const [meta, setMeta] = useState(null);
+    const [hoveredIdx, setHoveredIdx] = useState(null);
 
     // 페이지 번호 계산 로직
     const page = (() => {
@@ -19,27 +21,17 @@ function ViewerDetail() {
 
     useEffect(() => {
         const url = `/mri-images/${folderPath}/meta.json`;
-
-        console.log("📡 Fetching:", url);
-
         fetch(url)
-            .then((res) => {
-                console.log("🔍 Response status:", res.status);
-                return res.text(); // 일단 text로 받기
-            })
+            .then((res) => res.text())
             .then((text) => {
                 try {
                     const json = JSON.parse(text);
-                    console.log("✅ Parsed JSON:", json);
                     setMeta(json);
                 } catch (parseErr) {
-                    console.error("❌ JSON 파싱 실패!", parseErr);
-                    console.log("🔎 받은 내용:", text);
+                    console.error("JSON 파싱 실패", parseErr);
                 }
             })
-            .catch((err) => {
-                console.error("❌ Fetch 실패!", err);
-            });
+            .catch((err) => console.error("Fetch 실패", err));
     }, [caseId, folderPath]);
 
     return (
@@ -47,7 +39,19 @@ function ViewerDetail() {
             <h2 className="text-xl font-semibold mb-4">🧠 MRI 이미지 뷰어</h2>
 
             {meta ? (
-                <MriCard base={meta.base} masks={meta.masks} folderPath={folderPath} />
+                <div className="flex gap-6">
+                    <MriCard
+                        base={meta.base}
+                        masks={meta.masks}
+                        folderPath={folderPath}
+                        hoveredIdx={hoveredIdx}
+                    />
+                    <MaskList
+                        masks={meta.masks}
+                        hoveredIdx={hoveredIdx}
+                        onHover={setHoveredIdx}
+                    />
+                </div>
             ) : (
                 <p>로딩 중...</p>
             )}
