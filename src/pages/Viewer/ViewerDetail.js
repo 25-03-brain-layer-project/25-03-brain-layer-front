@@ -39,7 +39,7 @@ function ViewerDetail() {
             <h2 className="text-xl font-semibold mb-4">🧠 MRI 이미지 뷰어</h2>
 
             {meta ? (
-                <div className="flex gap-6">
+                <div className="flex items-start gap-2">
                     <MriCard
                         base={meta.base}
                         masks={meta.masks}

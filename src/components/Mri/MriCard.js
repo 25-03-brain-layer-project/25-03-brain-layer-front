@@ -2,7 +2,7 @@
 
 function MriCard({ base, masks, folderPath, hoveredIdx }) {
     return (
-        <div className="relative w-[512px] h-[512px] mx-auto">
+        <div className="relative w-[512px] h-[512px] ">
             <img
                 src={`/mri-images/${folderPath}/${base}`}
                 alt="MRI base"
